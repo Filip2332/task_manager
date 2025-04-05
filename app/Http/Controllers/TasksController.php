@@ -26,16 +26,31 @@ class TasksController extends Controller
         return redirect('/tasks')->with('completed', 'Task created!');
     }
     public function show($id){
-
+       $task = TaskManager::find($id);
+       return view('show', compact('task'));
     }
     public function edit($id){
-
+        $task = TaskManager::find($id);
+        return view('edit', compact('task'));
     }
     public function update(Request $request, $id){
-
+        $task = TaskManager::find($id);
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'completed' => 'boolean',
+        ]);
+        $validatedData['completed'] = $request->has('completed');
+        $task->update($validatedData);
+        return redirect('/tasks')->with('completed', 'Task updated!');
     }
-    public function destroy($id){
-
+    public function destroy($id)
+    {
+        $task = TaskManager::find($id);
+        if (!$task) {
+            return redirect('/tasks')->with('error', 'Task not found!');
+        }
+        $task->delete();
+        return redirect('/tasks')->with('completed', 'Task deleted!');
     }
-
 }

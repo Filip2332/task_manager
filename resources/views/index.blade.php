@@ -21,6 +21,7 @@
                     <p class="mb-1">Description: {{ $task->description }}</p>
                     <small>Status: {{ $task->completed ? 'Completed' : 'Not completed' }}</small>
                     <div class="mt-2">
+                        <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-info btn-sm">View</a>
                         <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-secondary">Edit</a>
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
                             @csrf
